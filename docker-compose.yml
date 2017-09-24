@@ -1,0 +1,16 @@
+version: "3"
+services:
+  bot:
+    image: medios_bot
+    deploy:
+      replicas: 1
+    networks:
+      - red
+  db:
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: laSextaDeclaracion
+    networks:
+      - red
+networks:
+  red:
