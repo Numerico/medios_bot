@@ -4,8 +4,12 @@ services:
     image: medios_bot
     deploy:
       replicas: 1
+    ports:
+      - "80:8000"
     networks:
       - red
+    depends_on:
+      - db
   db:
     image: postgres
     environment:

@@ -1,1 +1,3 @@
 pyTelegramBotAPI
+django
+psycopg2
