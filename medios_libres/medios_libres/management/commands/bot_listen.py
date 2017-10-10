@@ -13,7 +13,7 @@ class Command(BaseCommand):
         bot = telebot.TeleBot(token)
 
         geo = types.ReplyKeyboardMarkup(row_width=1, resize_keyboard=True)
-        boton = types.KeyboardButton('Enviar posicion')#, request_location=True) TODO cell
+        boton = types.KeyboardButton('Enviar posicion', request_location=True)
 	geo.add(boton)
  
         @bot.message_handler(commands=['monitor',])
@@ -21,15 +21,22 @@ class Command(BaseCommand):
             """al comando /monitor responde con un teclado con el boton para enviar ubicacion"""
             cid = message.chat.id
             bot.send_message(cid, "Reportar mi ubicacion", reply_markup=geo)
-            # FIXME x testing
-            bot.send_location(cid, 14.232, -90.282)
 
         @bot.message_handler(content_types=['location',])
         def recibir_posicion(message):
-            username = message.from_user.username
+            user=message.from_user
+            if user.username:
+                username = user.username
+            elif user.first_name:
+                username = user.first_name
+            elif user.last_name:
+                username = user.last_name
             latitude = message.location.latitude
             longitude = message.location.longitude
-            Ubicacion.objects.create(lat=latitude, longi=longitude, usuario=username)
+            try:
+                Ubicacion.objects.create(lat=latitude, longi=longitude, usuario=username)
+            except Exception:
+                print("falla lat:{}, long:{}, user:{}".format(latitude, longitude, username))
             # TODO FWD
 
         bot.polling()
