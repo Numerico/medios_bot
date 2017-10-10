@@ -1,5 +1,5 @@
 from django.core.management.base import BaseCommand, CommandError
-from medios_libres.models import Texto
+from medios_libres.models import Texto, Ubicacion
 import telebot
 from telebot import types
 
@@ -26,7 +26,10 @@ class Command(BaseCommand):
 
         @bot.message_handler(content_types=['location',])
         def recibir_posicion(message):
-            bot.reply_to(message, "grax")
-            # TODO grabar / fwd
+            username = message.from_user.username
+            latitude = message.location.latitude
+            longitude = message.location.longitude
+            Ubicacion.objects.create(lat=latitude, longi=longitude, usuario=username)
+            # TODO FWD
 
         bot.polling()
