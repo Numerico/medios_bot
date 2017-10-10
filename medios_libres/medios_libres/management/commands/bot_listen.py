@@ -12,13 +12,21 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         bot = telebot.TeleBot(token)
 
-        mrkp = types.ReplyKeyboardMarkup(row_width=1)
-        boton = types.KeyboardButton('Enviar posicion', request_location=True)
-        mrkp.add(boton)
+        geo = types.ReplyKeyboardMarkup(row_width=1, resize_keyboard=True)
+        boton = types.KeyboardButton('Enviar posicion')#, request_location=True) TODO cell
+	geo.add(boton)
  
         @bot.message_handler(commands=['monitor',])
-        def query_text(message):
+        def mandar_posicion(message):
+            """al comando /monitor responde con un teclado con el boton para enviar ubicacion"""
             cid = message.chat.id
-            bot.send_message(cid, "Reportar mi ubicacion", reply_markup=mrkp)
+            bot.send_message(cid, "Reportar mi ubicacion", reply_markup=geo)
+            # FIXME x testing
+            bot.send_location(cid, 14.232, -90.282)
+
+        @bot.message_handler(content_types=['location',])
+        def recibir_posicion(message):
+            bot.reply_to(message, "grax")
+            # TODO grabar / fwd
 
         bot.polling()
