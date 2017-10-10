@@ -1,1 +1,33 @@
-iaquiriaelmapa
+<html>
+
+<head>
+<meta charset="utf-8" /> 
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css" integrity="sha512-M2wvCLH6DSRazYeZRIm1JnYyh22purTM+FDB5CsyxtQJYeKq83arPe5wgbNmcFXGqiSH2XR8dT/fJISVA1r/zQ=="crossorigin=""/>
+<script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"
+integrity="sha512-lInM/apFSqyy1o6s89K4iQUKg6ppXEgsVxT35HbzUupEVRh2Eu9Wdl4tHj7dZO0s1uvplcYGmt3498TtHq+log=="
+crossorigin=""></script>
+<style type="text/css">#mapid { height: 800px; }</style>
+</head>
+
+<body>
+
+<div id="mapid"></div>
+
+<script type="text/javascript">
+var mapa = L.map('mapid').setView([15.8526589, -93.6703939], 11); // boca de cielo
+L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/light-v9/tiles/256/{z}/{x}/{y}?access_token=pk.eyJ1IjoibnVtZXJpa2EiLCJhIjoiY2o3cXQ2dnhyMG4wajMybnExZW9rM3MyNiJ9.V8Cp4s82YUQekxFuAuwsCg', {
+    attribution: 'Mapa colaborativo de <a href="http://openstreetmap.org">OpenStreetMap</a>, licencia libre <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>...',
+    id: 'mapbox.streets',
+    accessToken: 'pk.eyJ1IjoibnVtZXJpa2EiLCJhIjoiY2o3cXQ2dnhyMG4wajMybnExZW9rM3MyNiJ9.V8Cp4s82YUQekxFuAuwsCg'
+}).addTo(mapa);
+
+<!-- ubicaciones -->
+{% for ubicacion in ubicaciones %}
+var ubicate{{forloop.counter}} = L.marker([{{ubicacion.lat}},{{ubicacion.longi}}]).addTo(mapa);
+ubicate{{forloop.counter}}.bindPopup("{{ubicacion.usuario}} -- {{ubicacion.tiempo}}");
+{% endfor %}
+
+</script>
+
+</body>
+</html>
