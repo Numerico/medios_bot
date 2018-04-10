@@ -25,7 +25,7 @@ SECRET_KEY = 'z^(b9@@#f4=9lksn4f9nf@-qxnrd356r=6*xrs2!678vpihows'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['numerica.cl']
 
 
 # Application definition
