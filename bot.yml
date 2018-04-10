@@ -1,0 +1,38 @@
+---
+
+- name: medios_bot
+  hosts: digitalocean
+  
+  vars: # == name?
+    stack: medios_bot
+    
+  tasks:
+    - name: ensure python is present
+      apt: name=python state=present
+      
+    - name: docker-py requirement for ansible docker
+      pip: 
+        name: docker-py
+        state: absent
+#        version: '>= 1.7.0'
+    
+    - pip: name=docker state=latest
+    #(-compose) TODO
+  
+    - name: pull imagen del bot
+      docker_image:
+        name: numericalatina/medios_bot
+  
+    - name: pull imagen postgres
+      docker_image:
+        name: postgres
+
+  
+    - name: copiar docker-compose.yml
+      template: 
+        dest: "~/medios_bot.yml"
+        src: docker-compose.yml
+
+    - name: actualizar stack de docker
+      command: "docker stack deploy -c ~/medios_bot.yml {{stack}}"
+
