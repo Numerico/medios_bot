@@ -76,12 +76,12 @@ WSGI_APPLICATION = 'medios_libres.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',
-        'USER': 'postgres',
-        'PASSWORD': 'laSextaDeclaracion',
-        'HOST': 'db',
-        'PORT': 5432
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'bot_wordpress',
+        'USER': 'bot_periodista',
+        'PASSWORD': 'OComoSeLLamen',
+        'HOST': 'mariadb',
+        'PORT': 3306
     }
 }
 

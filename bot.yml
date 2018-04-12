@@ -16,17 +16,17 @@
         state: absent
 #        version: '>= 1.7.0'
     
-    - pip: name=docker state=latest
+    - pip: name=docker
     #(-compose) TODO
   
     - name: pull imagen del bot
       docker_image:
         name: numericalatina/medios_bot
+        force: yes # pull
   
     - name: pull imagen postgres
       docker_image:
-        name: postgres
-
+        name: mariadb
   
     - name: copiar docker-compose.yml
       template: 
