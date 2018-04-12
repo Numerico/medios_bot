@@ -1,7 +1,8 @@
 ---
 
 - name: medios_bot
-  hosts: digitalocean
+  hosts: all
+  become: yes
   
   vars: # == name?
     stack: medios_bot
@@ -10,13 +11,17 @@
     - name: ensure python is present
       apt: name=python state=present
       
-    - name: docker-py requirement for ansible docker
+    - name: docker-py is deprecated
       pip: 
         name: docker-py
-        state: absent
+#        state: absent
 #        version: '>= 1.7.0'
     
-    - pip: name=docker
+    - name: docker requirement for ansible docker
+      pip:
+        name: docker
+        state: present
+      
     #(-compose) TODO
   
     - name: pull imagen del bot
@@ -24,7 +29,7 @@
         name: numericalatina/medios_bot
         force: yes # pull
   
-    - name: pull imagen postgres
+    - name: pull imagen mariadb
       docker_image:
         name: mariadb
   
