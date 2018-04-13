@@ -1,0 +1,43 @@
+---
+
+- name: medios_bot
+  hosts: all
+  become: yes
+  
+  vars: # == name?
+    stack: medios_bot
+    
+  tasks:
+    - name: ensure python is present
+      apt: name=python state=present
+      
+    - name: docker-py is deprecated
+      pip: 
+        name: docker-py
+#        state: absent
+#        version: '>= 1.7.0'
+    
+    - name: docker requirement for ansible docker
+      pip:
+        name: docker
+        state: present
+      
+    #(-compose) TODO
+  
+    - name: pull imagen del bot
+      docker_image:
+        name: numericalatina/medios_bot
+        force: yes # pull
+  
+    - name: pull imagen mariadb
+      docker_image:
+        name: mariadb
+  
+    - name: copiar docker-compose.yml
+      template: 
+        dest: "~/medios_bot.yml"
+        src: docker-compose.yml
+
+    - name: actualizar stack de docker
+      command: "docker stack deploy -c ~/medios_bot.yml {{stack}}"
+
