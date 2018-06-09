@@ -22,6 +22,7 @@ class Migration(migrations.Migration):
             ],
             options={
                 'db_table': 'wp_commentmeta',
+                'managed': False,
             },
         ),
         migrations.CreateModel(
@@ -45,6 +46,7 @@ class Migration(migrations.Migration):
             ],
             options={
                 'db_table': 'wp_comments',
+                'managed': False,
             },
         ),
         migrations.CreateModel(
@@ -66,6 +68,7 @@ class Migration(migrations.Migration):
             ],
             options={
                 'db_table': 'wp_links',
+                'managed': False,
             },
         ),
         migrations.CreateModel(
@@ -78,6 +81,7 @@ class Migration(migrations.Migration):
             ],
             options={
                 'db_table': 'wp_postmeta',
+                'managed': False,
             },
         ),
         migrations.CreateModel(
@@ -109,6 +113,7 @@ class Migration(migrations.Migration):
             ],
             options={
                 'db_table': 'wp_posts',
+                'managed': False,
             },
         ),
         migrations.CreateModel(
@@ -121,6 +126,7 @@ class Migration(migrations.Migration):
             ],
             options={
                 'db_table': 'wp_termmeta',
+                'managed': False,
             },
         ),
         migrations.CreateModel(
@@ -132,6 +138,7 @@ class Migration(migrations.Migration):
             ],
             options={
                 'db_table': 'wp_term_relationships',
+                'managed': False,
             },
         ),
         migrations.CreateModel(
@@ -144,6 +151,7 @@ class Migration(migrations.Migration):
             ],
             options={
                 'db_table': 'wp_terms',
+                'managed': False,
             },
         ),
         migrations.CreateModel(
@@ -158,6 +166,7 @@ class Migration(migrations.Migration):
             ],
             options={
                 'db_table': 'wp_term_taxonomy',
+                'managed': False,
             },
         ),
     ]
