@@ -4,26 +4,46 @@
   hosts: all
   become: yes
   
-  vars: # == name?
+  vars:
     stack: medios_bot
     
   tasks:
+      
+    # ANSIBLE requirements        
     - name: ensure python is present
       apt: name=python state=present
-      
-    - name: docker-py is deprecated
-      pip: 
+      tags: installation
+
+    - name: ensure pip is present
+      easy_install:
+        name: pip
+        state: present
+      tags: installation
+
+    # ansible-docker requirements
+    - name: python package docker-py is deprecated
+      pip:
         name: docker-py
-#        state: absent
-#        version: '>= 1.7.0'
-    
-    - name: docker requirement for ansible docker
+        state: absent
+      tags: installation
+
+    - name: ensure python package docker is present
       pip:
         name: docker
         state: present
-      
-    #(-compose) TODO
+      tags: installation
+
+    - name: ensure python package docker-compose is present
+      pip:
+        name: docker-compose
+        state: present
+      tags: installation
+
+    # TODO additional dependencies?
+    # apt:name=libmariadbclient-dev
   
+    # DOCKER images
+
     - name: pull imagen del bot
       docker_image:
         name: numericalatina/medios_bot
@@ -32,6 +52,9 @@
     - name: pull imagen mariadb
       docker_image:
         name: mariadb
+      tags: installation
+  
+    # ORCHESTRATION
   
     - name: copiar docker-compose.yml
       template: 
