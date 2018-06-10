@@ -1,15 +1,21 @@
 from django.db import models
+import telebot
+from django.conf import settings
 
-# DJANGO
+class MediosBot:
 
-class Texto(models.Model):
-    texto = models.TextField()
+    bot = telebot.TeleBot('')
 
-class Ubicacion(models.Model):
-    lat = models.FloatField()
-    longi = models.FloatField()
-    usuario = models.CharField(max_length=50) # TODO model
-    tiempo = models.DateTimeField(auto_now=True) # redundante?
+    def __init__(self, token=None):
+        if token:
+            self.bot.token = token
+
+    @bot.message_handler(content_types=['text',])# commands=['publicar',]
+    def listen_text(message):
+        wp_post = WpPosts(
+            post_content=message.text
+        )
+        wp_post.save()
 
 # WORDPRESS unmanaged
 # obtained by inspectdb
