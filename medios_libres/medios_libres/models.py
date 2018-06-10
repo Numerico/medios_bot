@@ -1,6 +1,7 @@
 from django.db import models
 import telebot
 from django.conf import settings
+from datetime import datetime
 
 class MediosBot:
 
@@ -12,10 +13,32 @@ class MediosBot:
 
     @bot.message_handler(content_types=['text',])# commands=['publicar',]
     def listen_text(message):
-        wp_post = WpPosts(
-            post_content=message.text
+        wp_post_author = WpUsers.objects.create(
+            user_login = "mediosbot",
+            user_pass = "sanJuanGariguna",
+            user_nicename = "medios_bot",
+            user_email = "bot@numerica.cl",
+            user_url = "",
+            user_registered = datetime.now(),
+            user_activation_key = "",
+            user_status = 1,
+            display_name = "MediosBot"
         )
-        wp_post.save()
+#    	import pdb; pdb.set_trace()
+        hoy=datetime.now()
+        wp_post = WpPosts.objects.create(
+            post_content=message.text,
+            #defaults
+            post_author=wp_post_author.id,
+            post_date=hoy,
+            post_date_gmt=hoy,
+            post_modified=hoy,
+            post_modified_gmt=hoy,
+            post_parent=0,
+            menu_order=0,
+            comment_count=0,
+        )
+        #wp_post.save()
 
 # WORDPRESS unmanaged
 # obtained by inspectdb
@@ -151,4 +174,20 @@ class WpTermmeta(models.Model):
     class Meta:
         managed = False
         db_table = 'wp_termmeta'
+
+class WpUsers(models.Model):
+    id = models.BigAutoField(db_column='ID', primary_key=True)  # Field name made lowercase.
+    user_login = models.CharField(max_length=60)
+    user_pass = models.CharField(max_length=255)
+    user_nicename = models.CharField(max_length=50)
+    user_email = models.CharField(max_length=100)
+    user_url = models.CharField(max_length=100)
+    user_registered = models.DateTimeField()
+    user_activation_key = models.CharField(max_length=255)
+    user_status = models.IntegerField()
+    display_name = models.CharField(max_length=250)
+
+    class Meta:
+        managed = False
+        db_table = 'wp_users'
 
