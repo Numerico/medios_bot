@@ -15,9 +15,7 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-from medios_libres import views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^mapa$', views.mapa, name='mapa'),
 ]

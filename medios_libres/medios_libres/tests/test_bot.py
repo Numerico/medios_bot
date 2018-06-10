@@ -1,12 +1,12 @@
 import pytest
 import telebot
 from telebot import types
-from medios_libres.models import MediosBot, WpPosts
+from medios_libres.models import MediosBot, WpPosts, WpUsers
 
 class TestMediosBot:
 
     @pytest.mark.django_db(transaction=True)
-    @pytest.mark.django_use_model(model=WpPosts)
+    @pytest.mark.django_use_model(model=[WpPosts, WpUsers])
     def test_receive_text_message(self):
         medios = MediosBot('')
         cmd = self.create_text_message('/publicar algo')
