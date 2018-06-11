@@ -1,10 +1,13 @@
 version: "3"
 services:
+
   bot:
     image: numericalatina/medios_bot
     restart: always
     networks:
       - bot_db
+    volumes:
+      - "{{ compose_path }}/ml/settings.py:/app/medios_libres/medios_libres/settings.py"
 
   mariadb:
     image: mariadb

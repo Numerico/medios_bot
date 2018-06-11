@@ -44,23 +44,29 @@
   
     # DOCKER images
 
-    - name: pull imagen del bot
+    - name: pull bot
       docker_image:
         name: numericalatina/medios_bot
-        force: yes # pull
+        force: yes # latest
   
-    - name: pull imagen mariadb
+    - name: pull mariadb
       docker_image:
         name: mariadb
       tags: installation
+
+    # SETTINGS
+    - file: dest="{{ compose_path }}/ml" state="directory"
+
+    - name: settigns decrypted
+      copy: src="{{ playbook_dir }}/group_vars/numerica/settings.py" dest="{{ compose_path }}/ml/settings.py"
   
     # ORCHESTRATION
   
-    - name: copiar docker-compose.yml
+    - name: template compose
       template: 
-        dest: "~/medios_bot.yml"
+        dest: "{{ compose_path }}/ml/medios_bot.yml"
         src: docker-compose.yml
 
-    - name: actualizar stack de docker
-      command: "docker stack deploy -c ~/medios_bot.yml {{stack}}"
+    - name: update stack
+      command: "docker stack deploy -c {{ compose_path }}/ml/medios_bot.yml {{stack}}"
 
