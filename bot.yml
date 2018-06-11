@@ -58,7 +58,9 @@
     - file: dest="{{ compose_path }}/ml" state="directory"
 
     - name: settigns decrypted
-      copy: src="{{ playbook_dir }}/group_vars/numerica/settings.py" dest="{{ compose_path }}/ml/settings.py"
+      template: src="{{ playbook_dir }}/group_vars/numerica/settings.py" dest="{{ compose_path }}/ml/settings.py"
+#      notify:
+#        - reload bot
   
     # ORCHESTRATION
   
