@@ -2,6 +2,7 @@ import pytest
 import telebot
 from telebot import types
 from medios_libres.models import MediosBot, WpPosts, WpUsers
+import time
 
 class TestMediosBot:
 
@@ -11,6 +12,7 @@ class TestMediosBot:
         medios = MediosBot('')
         cmd = self.create_text_message('/publicar algo')
         medios.bot.process_new_messages([cmd])
+        time.sleep(0.1) # TODO needs a litte
         assert WpPosts.objects.count() == 1
 
     # HELPERS
