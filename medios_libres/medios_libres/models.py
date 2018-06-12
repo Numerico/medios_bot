@@ -1,44 +1,4 @@
 from django.db import models
-import telebot
-from django.conf import settings
-from datetime import datetime
-
-class MediosBot:
-
-    bot = telebot.TeleBot('')
-
-    def __init__(self, token=None):
-        if token:
-            self.bot.token = token
-
-    @bot.message_handler(content_types=['text',])# commands=['publicar',]
-    def listen_text(message):
-        wp_post_author = WpUsers.objects.create(
-            user_login = "mediosbot",
-            user_pass = "sanJuanGariguna",
-            user_nicename = "medios_bot",
-            user_email = "bot@numerica.cl",
-            user_url = "",
-            user_registered = datetime.now(),
-            user_activation_key = "",
-            user_status = 1,
-            display_name = "MediosBot"
-        )
-#    	import pdb; pdb.set_trace()
-        hoy=datetime.now()
-        wp_post = WpPosts.objects.create(
-            post_content=message.text,
-            #defaults
-            post_author=wp_post_author.id,
-            post_date=hoy,
-            post_date_gmt=hoy,
-            post_modified=hoy,
-            post_modified_gmt=hoy,
-            post_parent=0,
-            menu_order=0,
-            comment_count=0,
-        )
-        #wp_post.save()
 
 # WORDPRESS unmanaged
 # obtained by inspectdb
