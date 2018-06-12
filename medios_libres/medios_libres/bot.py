@@ -5,9 +5,11 @@ from datetime import datetime
 # TODO ENV KEY
 medios_bot = telebot.TeleBot('')
 
-def fetch_message_author(self, message):
-# TODO bot_user = self.bot.get_me()
-    wp_post_author = WpUsers.objects.find_or_create(
+def fetch_message_author(message):
+# TODO user matching WP/Telegram
+# bot_user = self.bot.get_me()
+# for now we use a bot user in wp
+    wp_post_author, created = WpUsers.objects.get_or_create(
         user_login = "mediosbot",
         user_pass = "sanJuanGariguna",
         user_nicename = "medios_bot",
@@ -16,14 +18,14 @@ def fetch_message_author(self, message):
         user_registered = datetime.now(),
         user_activation_key = "",
         user_status = 1,
-        display_name = "MediosBot"
+        display_name = "MediosBot",
     )
     return wp_post_author
 
-@medios_bot.message_handler(command=['text',])
-def listen_text(message):
+@medios_bot.message_handler(commands=['publicar',])
+def listen_publicar(message):
     hoy=datetime.now()
-    post_author = bot.fetch_message_author(message)
+    post_author = fetch_message_author(message)
     wp_post = WpPosts.objects.create(
         post_content=message.text,
         #defaults
@@ -36,4 +38,3 @@ def listen_text(message):
         menu_order=0,
         comment_count=0,
     )
-
